@@ -1,4 +1,5 @@
 import axiosDishes from "../../axiosDishes";
+import {getAllDishes} from "./dishesActions";
 
 export const REQUEST_ORDER_ERROR = 'REQUEST_ERROR';
 export const REQUEST_ORDER_START = 'REQUEST_START';
@@ -14,8 +15,20 @@ export const getOrders = () => {
           dispatch(requestOrderStart());
           let response = await axiosDishes.get('/orders.json');
           dispatch(requestOrderSuccess(response.data));
+          dispatch(getAllDishes());
       } catch (e) {
           dispatch(requestOrderError(e));
       }
   }
+};
+export const completeOrder = (id) => {
+    return async dispatch => {
+        try {
+            dispatch(requestOrderStart());
+            await axiosDishes.delete(id + '.json');
+            dispatch(getOrders());
+        } catch (e) {
+            dispatch(requestOrderError(e))
+        }
+    }
 };

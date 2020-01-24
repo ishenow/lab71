@@ -1,29 +1,37 @@
 import React, {useEffect} from 'react';
-import {getOrders} from "../store/actions/ordersActions";
+import {completeOrder, getOrders} from "../store/actions/ordersActions";
 import {connect} from "react-redux";
-import {getAllDishes} from "../store/actions/dishesActions";
 
 const Orders = (props) => {
     useEffect(() => {
-        props.getDishes();
         props.getOrders();
     }, []);
-    return (
-        <div>
-            {props.orders.map(order => {
-                for (let i = 0; i < props.dishes.length; i++) {
-                    if (order.id === props.dishes[i].id) {
-                        let d = props.dishes[i];
-                        return <div key={order.id}>
+    const completeOrder =  () => {
+        props.complete('orders');
+    };
+    let total = 0;
+    let order = props.orders.map(order => {
+        for (let i = 0; i < props.dishes.length; i++) {
+            if (order.id === props.dishes[i].id) {
+                let d = props.dishes[i];
+                total += d.price * order.amount;
+                return <div key={order.id}>
                             <span>
                                 {order.amount} x {d.title}  price : {d.price}
                             </span>
-                            total : <strong>{d.price * order.amount}</strong>
-                        </div>
-                    }
-                }
-                return null;
-            })}
+                    total : <strong>{d.price * order.amount}</strong>
+                </div>
+            }
+        }
+        return null;
+    });
+    return (
+        <div>
+            {order}
+            mainToTal : {total};
+            <button onClick={completeOrder}>
+                complete order
+            </button>
         </div>
     );
 };
@@ -34,7 +42,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     getOrders: () => dispatch(getOrders()),
-    getDishes : () => dispatch(getAllDishes()),
+    complete : (id) => dispatch(completeOrder(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);
