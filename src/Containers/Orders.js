@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import {completeOrder, getOrders} from "../store/actions/ordersActions";
 import {connect} from "react-redux";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 const Orders = (props) => {
     useEffect(() => {
@@ -15,24 +17,28 @@ const Orders = (props) => {
             if (order.id === props.dishes[i].id) {
                 let d = props.dishes[i];
                 total += d.price * order.amount;
-                return <div key={order.id}>
+                return <Box>
+                          <div key={order.id}>
                             <span>
                                 {order.amount} x {d.title}  price : {d.price}
                             </span>
-                    total : <strong>{d.price * order.amount}</strong>
-                </div>
+                              total : <strong>{d.price * order.amount}</strong>
+                          </div>
+                      </Box>
+
             }
         }
         return null;
     });
     return (
-        <div>
+        <Box display="flex" alignItems="center" flexDirection="row" justifyContent="space-around" my={2}>
             {order}
-            mainToTal : {total};
-            <button onClick={completeOrder}>
+            Total Price: {total}
+            <br/>
+            <Button variant="outlined" color="primary" onClick={completeOrder} mt={12}>
                 complete order
-            </button>
-        </div>
+            </Button>
+        </Box>
     );
 };
 

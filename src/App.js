@@ -9,7 +9,7 @@ function App() {
     return (
         <BrowserRouter>
             <NavBar/>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 <Switch>
                     <Route path="/" exact component={Dishes}/>
                     <Route path="/orders" component={Orders}/>

@@ -5,6 +5,8 @@ import {addNewDish, editDish, getAllDishes, removeDish} from "../store/actions/d
 import Dish from "../Components/Dish/Dish";
 import Modal from "../Components/Modal/Modal";
 import Button from "@material-ui/core/Button";
+import {Box} from "@material-ui/core";
+
 
 const Dishes = (props) => {
     const [open, setOpen] = useState(false);
@@ -30,20 +32,24 @@ const Dishes = (props) => {
     useEffect(() => {
         props.getAllDishes();
     },[props]);
-    return (
+  return (
         <div>
-            <Button color="secondary" onClick={handleOpen}>AddDish</Button>
+          <Box display="flex" justifyContent="space-around" alignItems="center" my={1}>
+            <span>DISHES</span>
+            <Button variant="contained" color="primary" onClick={handleOpen}>AddDish</Button>
+          </Box>
             <Modal show={open} close={handleClose}>
                 <FormBlock onSubmitted={addDish}/>
             </Modal>
-            dishes
             <hr/>
+          <Box display="flex" flexWrap="wrap" justifyContent="space-around" alignItems="flex-start">
             {props.dishes.map(d => {
-                return <Dish edit={() => openEditModal(d)} remove={() => props.removeDish(d.id)} key={d.id} img={d.img} price={d.price} name={d.title}/>
+              return <Dish edit={() => openEditModal(d)} remove={() => props.removeDish(d.id)} key={d.id} img={d.img} name={d.title} price={d.price}/>
             })}
             <Modal show={!!editWindow} close={closeEditWindow}>
-                <FormBlock dishes={editWindow} onSubmitted={editHandler}/>
+              <FormBlock dishes={editWindow} onSubmitted={editHandler}/>
             </Modal>
+          </Box>
         </div>
     );
 };

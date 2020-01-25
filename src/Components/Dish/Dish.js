@@ -9,12 +9,13 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     card: {
-        width: 500,
+        width: 250 ,
         textAlign : 'center',
         marginBottom: '30px',
+        background: '#daffb5'
     },
     media: {
-        width : 500,
+        width : "100%",
         height: 180,
     },
     content : {
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
     },
     title : {
         marginBottom : 0,
+        textTransform: 'capitalize',
     },
     btn : {
         margin : '0 auto',
@@ -46,7 +48,7 @@ const Dish = ({name,img,remove,edit,price}) => {
                         {name}
                     </Typography>
                     <Typography className={classes.title} gutterBottom variant="h6" component="p">
-                        KGS {price}
+                        {price} <b>KGS</b>
                     </Typography>
                 </CardContent>
             </CardActionArea>
